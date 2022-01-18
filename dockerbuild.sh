@@ -1,1 +1,1 @@
-docker build -t plex-bot:latest .
+docker build -t tg-plex-bot:latest .
