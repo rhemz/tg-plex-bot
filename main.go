@@ -2,7 +2,6 @@ package main
 
 import (
     "fmt"
-    "encoding/json"
     "net/http"
     "net/url"
     "os"
@@ -11,6 +10,8 @@ import (
     "github.com/gin-gonic/gin"
     ginzap "github.com/gin-contrib/zap"
     "go.uber.org/zap"
+
+    "github.com/hekmon/plexwebhooks"
 )
 
 func main() {
@@ -40,20 +41,33 @@ func main() {
 
     // register handlers
     g.POST("/plexhook", func(c *gin.Context) {
-        var e PlexEvent
-        if c.BindJSON(&e) == nil {
-            // for now lets log it
-            body, _ := json.Marshal(e)
-            sugar.Info(string(body))
+        // var e PlexEvent
+
+        reader, err := c.Request.MultipartReader()
+        if err != nil {
+            // Detect error type for the http answer
+            if err == http.ErrNotMultipart || err == http.ErrMissingBoundary {
+                c.String(http.StatusBadRequest, "bad multipart, dawg")
+            } else {
+                c.String(http.StatusBadRequest, "some other kinda error")
+            }
+            sugar.Warn(err)
+            return
         }
 
+        payload, thumb, err := plexwebhooks.Extract(reader)
+
+        sugar.Debug(thumb)
+        sugar.Debug(err)
+
+
         // send a message to the channel
-        if e.Event == "media.play" {
+        if payload.Event == "media.play" {
             sugar.Info("got play event!")
 
             v := url.Values{}
             v.Set("chat_id", "-1001623668262")
-            v.Set("text", fmt.Sprintf("%s started playing %s", e.Account.Title, e.Metadata.Title))
+            v.Set("text", fmt.Sprintf("%s started playing %s", payload.Account.Title, payload.Metadata.Title))
 
             url := url.URL{
                 Scheme:     "https",

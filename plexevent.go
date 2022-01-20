@@ -47,3 +47,8 @@ type PlexEvent struct {
         UpdatedAt            int    `json:"updatedAt"`
     } `json:"Metadata"`
 }
+
+type Thumbnail struct {
+    Filename string
+    Data     []byte
+}
