@@ -13,10 +13,10 @@ import (
 
 )
 
+type PlexWebhookController struct{}
 
 
-func PlexHookPOST(c *gin.Context) {
-
+func (p PlexWebhookController) Post(c *gin.Context) {
     // telegram things
     tgBotId := os.Getenv("TELEGRAM_BOT_ID")
     if tgBotId == "" {
