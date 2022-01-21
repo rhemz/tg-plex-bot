@@ -1,7 +1,31 @@
 package v1
 
+import (
+    "fmt"
+    "net/http"
+    "net/url"
+    "os"
 
-func plexhookPOST(c *gin.Context) {
+    "github.com/gin-gonic/gin"
+    "go.uber.org/zap"
+
+    "github.com/hekmon/plexwebhooks"
+
+)
+
+
+
+func PlexHookPOST(c *gin.Context) {
+
+    // telegram things
+    tgBotId := os.Getenv("TELEGRAM_BOT_ID")
+    if tgBotId == "" {
+        zap.S().Fatal("TELEGRAM_BOT_ID not set")
+    }
+    tgToken := os.Getenv("TELEGRAM_API_TOKEN")
+    if tgToken == "" {
+        zap.S().Fatal("TELEGRAM_API_TOKEN not set")
+    }
 
     reader, err := c.Request.MultipartReader()
     if err != nil {
@@ -23,15 +47,31 @@ func plexhookPOST(c *gin.Context) {
     // send a message to the channel
     if payload.Event == "media.play" {
         zap.S().Info("got play event!")
+        msg := ""
 
         // show
-        msg := ""
         if payload.Metadata.LibrarySectionType == "show" {
-            msg = fmt.Sprintf("%s started playing %s, %s - %s", payload.Account.Title, payload.Metadata.GrandparentTitle, payload.Metadata.ParentTitle, payload.Metadata.Title)
+            msg = fmt.Sprintf(`
+%s started watching a TV Show
+
+<b>%s</b>
+%s, Episode %d
+%s
+`, 
+            payload.Account.Title, payload.Metadata.GrandparentTitle, payload.Metadata.ParentTitle, payload.Metadata.Index, payload.Metadata.Title)
+        } else if payload.Metadata.LibrarySectionType == "movie" {  // movie
+            msg = fmt.Sprintf(`
+%s started watching a Movie
+
+<b>%s</b>
+Ⓒ%d
+`, 
+            payload.Account.Title, payload.Metadata.Title, payload.Metadata.Year)
         }
 
         v := url.Values{}
         v.Set("chat_id", "-1001623668262")
+        v.Set("parse_mode", "HTML")
         v.Set("text", msg)
 
         url := url.URL{

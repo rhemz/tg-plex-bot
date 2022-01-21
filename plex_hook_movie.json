@@ -1,0 +1,200 @@
+{
+    "event": "media.play",
+    "user": true,
+    "owner": true,
+    "Account":
+    {
+        "id": 1,
+        "thumb": "https://plex.tv/users/7142197eec8c60a6/avatar?c=1606502024",
+        "title": "rhemzy"
+    },
+    "Server":
+    {
+        "title": "russ-nas1",
+        "uuid": "f74385b54fd2bd8846a99118de717f2e507006c5"
+    },
+    "Player":
+    {
+        "local": false,
+        "publicAddress": "192.168.2.150",
+        "title": "Firefox",
+        "uuid": "c21bc1vzx365feruhg28ma8k"
+    },
+    "Metadata":
+    {
+        "librarySectionType": "movie",
+        "ratingKey": "30590",
+        "key": "/library/metadata/30590",
+        "guid": "plex://movie/5d776b7f96b655001fe132e8",
+        "studio": "Titmouse",
+        "type": "movie",
+        "title": "Metalocalypse: The Doomstar Requiem - A Klok Opera",
+        "librarySectionTitle": "Movies",
+        "librarySectionID": 4,
+        "librarySectionKey": "/library/sections/4",
+        "contentRating": "TV-MA",
+        "summary": "While Toki and Abigail remain in the clutches of Magnus Hammersmith and the Metal Masked Assassin, the remaining members of Dethklok carry on with their lives while pretending not to care. But as their guilt mounts and their fans become increasingly restless with Toki's absence, they realize that they must find a way to rescue their brother.",
+        "audienceRating": 8.1,
+        "viewOffset": 72000,
+        "skipCount": 1,
+        "lastViewedAt": 1642483056,
+        "year": 2013,
+        "tagline": "A Klok Opera",
+        "thumb": "/library/metadata/30590/thumb/1642304405",
+        "art": "/library/metadata/30590/art/1642304405",
+        "duration": 3600000,
+        "originallyAvailableAt": "2013-10-31",
+        "addedAt": 1642304403,
+        "updatedAt": 1642304405,
+        "audienceRatingImage": "imdb://image.rating",
+        "chapterSource": "media",
+        "Genre":
+        [
+            {
+                "id": 37872,
+                "filter": "genre=37872",
+                "tag": "Animation",
+                "count": 101
+            },
+            {
+                "id": 37471,
+                "filter": "genre=37471",
+                "tag": "Comedy",
+                "count": 309
+            },
+            {
+                "id": 39919,
+                "filter": "genre=39919",
+                "tag": "Music",
+                "count": 26
+            },
+            {
+                "id": 37879,
+                "filter": "genre=37879",
+                "tag": "Drama",
+                "count": 403
+            }
+        ],
+        "Director":
+        [
+            {
+                "id": 111538,
+                "filter": "director=111538",
+                "tag": "Mark Brooks"
+            }
+        ],
+        "Writer":
+        [
+            {
+                "id": 111539,
+                "filter": "writer=111539",
+                "tag": "Mark Brooks"
+            },
+            {
+                "id": 111540,
+                "filter": "writer=111540",
+                "tag": "Brendon Small"
+            },
+            {
+                "id": 111541,
+                "filter": "writer=111541",
+                "tag": "Janine Ditullio"
+            }
+        ],
+        "Producer":
+        [
+            {
+                "id": 111550,
+                "filter": "producer=111550",
+                "tag": "Shannon Barrett Prynoski"
+            }
+        ],
+        "Country":
+        [
+            {
+                "id": 62220,
+                "filter": "country=62220",
+                "tag": "United States of America",
+                "count": 826
+            }
+        ],
+        "Guid":
+        [
+            {
+                "id": "imdb://tt3298820"
+            },
+            {
+                "id": "tmdb://328407"
+            },
+            {
+                "id": "tvdb://74598"
+            }
+        ],
+        "Role":
+        [
+            {
+                "id": 111542,
+                "filter": "actor=111542",
+                "tag": "Jack Black",
+                "count": 10,
+                "role": "Dethklok's Original Manager / Fat Fan (voice)",
+                "thumb": "https://metadata-static.plex.tv/people/5d7768255af944001f1f63d8.jpg"
+            },
+            {
+                "id": 111543,
+                "filter": "actor=111543",
+                "tag": "Mark Hamill",
+                "count": 9,
+                "role": "Mr. Salacia / Senator Stampingston (voice)",
+                "thumb": "https://metadata-static.plex.tv/9/people/9032c42583424890673c44d4bbd2a03a.jpg"
+            },
+            {
+                "id": 111544,
+                "filter": "actor=111544",
+                "tag": "Mike Keneally",
+                "role": "Toki Wartooth (voice)",
+                "thumb": "https://metadata-static.plex.tv/6/people/6964cbd155f44ba24014bab934c90e82.jpg"
+            },
+            {
+                "id": 104907,
+                "filter": "actor=104907",
+                "tag": "Malcolm McDowell",
+                "count": 2,
+                "role": "Vater Orlagg (voice)",
+                "thumb": "https://metadata-static.plex.tv/6/people/658e36ded57d6d06faba2b765d3c423b.jpg"
+            },
+            {
+                "id": 111545,
+                "filter": "actor=111545",
+                "tag": "Brendon Small",
+                "role": "Nathan Explosion / Skwisgaar Skwigelf / Pickles / William Murderface / Young Toki Wartooth / Charles Offdensen / Ishnifus Meaddle / Edgar Jomfru / Eric Jomfru / Magnus Hammersmith / Dr. Rockzo (voice)",
+                "thumb": "https://metadata-static.plex.tv/8/people/8452e660800f48022bc2ba3fb41cdef3.jpg"
+            },
+            {
+                "id": 111546,
+                "filter": "actor=111546",
+                "tag": "Victor Brandt",
+                "role": "General Crozier (voice)"
+            },
+            {
+                "id": 111547,
+                "filter": "actor=111547",
+                "tag": "Raya Yarbrough",
+                "role": "Abigail Remeltindrinc / Old Groupie (voice)"
+            },
+            {
+                "id": 111548,
+                "filter": "actor=111548",
+                "tag": "Ulrich Wild",
+                "role": "Bald Fan (voice) (uncredited)"
+            },
+            {
+                "id": 111549,
+                "filter": "actor=111549",
+                "tag": "George Fisher",
+                "count": 3,
+                "role": "Metal Masked Assassin (voice)"
+            }
+        ]
+    }
+}

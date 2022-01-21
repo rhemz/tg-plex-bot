@@ -1,1 +1,1 @@
-curl -X POST -F payload=@plex_hook_test2.json "http://localhost:8080/plexhook"
+curl -X POST -F payload=@plex_hook_movie.json "http://localhost:8080/plexhook"
