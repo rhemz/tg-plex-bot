@@ -1,0 +1,189 @@
+{
+    "event": "media.play",
+    "user": true,
+    "owner": true,
+    "Account":
+    {
+        "id": 1,
+        "thumb": "https://plex.tv/users/7142197eec8c60a6/avatar?c=1606502024",
+        "title": "rhemzy"
+    },
+    "Server":
+    {
+        "title": "russ-nas1",
+        "uuid": "f74385b54fd2bd8846a99118de717f2e507006c5"
+    },
+    "Player":
+    {
+        "local": false,
+        "publicAddress": "192.168.2.150",
+        "title": "Firefox",
+        "uuid": "c21bc1vzx365feruhg28ma8k"
+    },
+    "Metadata":
+    {
+        "librarySectionType": "show",
+        "ratingKey": "29715",
+        "key": "/library/metadata/29715",
+        "parentRatingKey": "29693",
+        "grandparentRatingKey": "29623",
+        "guid": "plex://episode/5d9c12c27d06d9001fff9404",
+        "parentGuid": "plex://season/602e68312d6795002c562128",
+        "grandparentGuid": "plex://show/5d9c086e08fddd001f29a991",
+        "type": "episode",
+        "title": "Crime & Punishment",
+        "grandparentKey": "/library/metadata/29623",
+        "parentKey": "/library/metadata/29693",
+        "librarySectionTitle": "TV Shows",
+        "librarySectionID": 3,
+        "librarySectionKey": "/library/sections/3",
+        "grandparentTitle": "Brooklyn Nine-Nine",
+        "parentTitle": "Season 4",
+        "contentRating": "TV-14",
+        "summary": "When Jake and Rosa are framed for a crime they didn't commit, it's up to the Nine-Nine to find a way to bust them out.",
+        "index": 22,
+        "parentIndex": 4,
+        "audienceRating": 8.0,
+        "viewOffset": 717000,
+        "lastViewedAt": 1642731726,
+        "thumb": "/library/metadata/29715/thumb/1640931090",
+        "art": "/library/metadata/29623/art/1640929312",
+        "parentThumb": "/library/metadata/29693/thumb/1640931078",
+        "grandparentThumb": "/library/metadata/29623/thumb/1640929312",
+        "grandparentArt": "/library/metadata/29623/art/1640929312",
+        "grandparentTheme": "/library/metadata/29623/theme/1640929312",
+        "duration": 1260000,
+        "originallyAvailableAt": "2017-05-23",
+        "addedAt": 1640931071,
+        "updatedAt": 1640931090,
+        "audienceRatingImage": "themoviedb://image.rating",
+        "Director":
+        [
+            {
+                "id": 107184,
+                "filter": "director=107184",
+                "tag": "Daniel J. Goor"
+            }
+        ],
+        "Guid":
+        [
+            {
+                "id": "imdb://tt6693394"
+            },
+            {
+                "id": "tmdb://1313833"
+            },
+            {
+                "id": "tvdb://6060774"
+            }
+        ],
+        "Role":
+        [
+            {
+                "id": 107717,
+                "filter": "actor=107717",
+                "tag": "Brent Briscoe",
+                "role": "Matthew Langdon",
+                "thumb": "https://metadata-static.plex.tv/people/5d776826961905001eb91096.jpg"
+            },
+            {
+                "id": 107718,
+                "filter": "actor=107718",
+                "tag": "Scott Aukerman",
+                "role": "Glandis",
+                "thumb": "https://metadata-static.plex.tv/people/5d776828961905001eb9170f.jpg"
+            },
+            {
+                "id": 107719,
+                "filter": "actor=107719",
+                "tag": "Eugene Cordero",
+                "role": "Pandemic",
+                "thumb": "https://metadata-static.plex.tv/people/5d77686761141d001fb19f3c.jpg"
+            },
+            {
+                "id": 107720,
+                "filter": "actor=107720",
+                "tag": "Kulap Vilaysack",
+                "role": "Nightmare",
+                "thumb": "https://image.tmdb.org/t/p/original/cPUDBvgOfxqhhg448JdEKdEenwX.jpg"
+            },
+            {
+                "id": 107721,
+                "filter": "actor=107721",
+                "tag": "Anita Bennett",
+                "role": "Hayley Lee",
+                "thumb": "https://image.tmdb.org/t/p/original/pq47CMz4jawCfgyNboZcangCLc.jpg"
+            },
+            {
+                "id": 107722,
+                "filter": "actor=107722",
+                "tag": "Emily Berry",
+                "role": "Temma",
+                "thumb": "https://metadata-static.plex.tv/people/5d77687de6d55c0020414303.jpg"
+            },
+            {
+                "id": 107723,
+                "filter": "actor=107723",
+                "tag": "P.L. Brown",
+                "role": "Judge Marinovich",
+                "thumb": "https://image.tmdb.org/t/p/original/mGgAANUXZLh1wCLSOVECeihXq0i.jpg"
+            },
+            {
+                "id": 107724,
+                "filter": "actor=107724",
+                "tag": "Rick Chambers",
+                "role": "Kit Durnings",
+                "thumb": "https://metadata-static.plex.tv/7/people/725dc67166023a4d9666a9f621ed80fc.jpg"
+            },
+            {
+                "id": 107725,
+                "filter": "actor=107725",
+                "tag": "Liberte Chan",
+                "role": "Anna Hsu",
+                "thumb": "https://image.tmdb.org/t/p/original/xuMokg9QtLWJN0J0E3N7IfoxFx2.jpg"
+            },
+            {
+                "id": 107726,
+                "filter": "actor=107726",
+                "tag": "Adam Johnson",
+                "role": "Hayes Chett",
+                "thumb": "https://metadata-static.plex.tv/people/5d77686f103a2d001f5718cb.jpg"
+            },
+            {
+                "id": 107727,
+                "filter": "actor=107727",
+                "tag": "Elisa Perry",
+                "role": "Nancy Crunder",
+                "thumb": "https://metadata-static.plex.tv/people/5d776c6c96b655001fe301d7.jpg"
+            },
+            {
+                "id": 107728,
+                "filter": "actor=107728",
+                "tag": "Johnny Ray Meeks",
+                "role": "Samuel Miller",
+                "thumb": "https://metadata-static.plex.tv/people/5d776b57fb0d55001f5649af.jpg"
+            },
+            {
+                "id": 107729,
+                "filter": "actor=107729",
+                "tag": "Bunnie Rivera",
+                "role": "Jury Forewoman",
+                "thumb": "https://metadata-static.plex.tv/people/5d7768530ea56a001e2a3055.jpg"
+            },
+            {
+                "id": 107160,
+                "filter": "actor=107160",
+                "tag": "Will Hines",
+                "role": "Carl Kurm",
+                "thumb": "https://image.tmdb.org/t/p/original/99HKOhDLvp705ovAa9mK4Kj6jnZ.jpg"
+            },
+            {
+                "id": 107379,
+                "filter": "actor=107379",
+                "tag": "Gina Gershon",
+                "role": "Melanie Hawkins",
+                "thumb": "https://metadata-static.plex.tv/8/people/802a5806d41779d787ff832998fcb7af.jpg"
+            }
+        ]
+    }
+}

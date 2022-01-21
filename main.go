@@ -5,10 +5,11 @@ import (
     "net/http"
     "net/url"
     "os"
+    // "reflect"
     "time"
 
-    "github.com/gin-gonic/gin"
     ginzap "github.com/gin-contrib/zap"
+    "github.com/gin-gonic/gin"
     "go.uber.org/zap"
 
     "github.com/hekmon/plexwebhooks"
@@ -18,26 +19,27 @@ func main() {
     // initialize gin, loggers
     g := gin.New()
     logger, _ := zap.NewProduction()
-    sugar := logger.Sugar()
+    undoLoggerReplace := zap.ReplaceGlobals(logger)
+    defer undoLoggerReplace()
+
     g.Use(ginzap.Ginzap(logger, time.RFC3339, true)) // use zap logger
-    g.Use(ginzap.RecoveryWithZap(logger, true))  // log panic to error
+    g.Use(ginzap.RecoveryWithZap(logger, true))      // log panic to error
 
     port := os.Getenv("PORT")
     if port == "" {
         port = "8080"
     }
-    sugar.Info("Attempting to listen on port ", port)
+    zap.S().Info("Attempting to listen on port ", port)
 
     // telegram things
     tgBotId := os.Getenv("TELEGRAM_BOT_ID")
     if tgBotId == "" {
-        sugar.Fatal("TELEGRAM_BOT_ID not set")
+        zap.S().Fatal("TELEGRAM_BOT_ID not set")
     }
     tgToken := os.Getenv("TELEGRAM_API_TOKEN")
     if tgToken == "" {
-        sugar.Fatal("TELEGRAM_API_TOKEN not set")
+        zap.S().Fatal("TELEGRAM_API_TOKEN not set")
     }
-    
 
     // register handlers
     g.POST("/plexhook", func(c *gin.Context) {
@@ -51,38 +53,42 @@ func main() {
             } else {
                 c.String(http.StatusBadRequest, "some other kinda error")
             }
-            sugar.Warn(err)
+            zap.S().Warn(err)
             return
         }
 
         payload, thumb, err := plexwebhooks.Extract(reader)
 
-        sugar.Debug(thumb)
-        sugar.Debug(err)
-
+        zap.S().Debug(thumb)
+        zap.S().Debug(err)
 
         // send a message to the channel
         if payload.Event == "media.play" {
-            sugar.Info("got play event!")
+            zap.S().Info("got play event!")
+
+            // show
+            msg := ""
+            if payload.Metadata.LibrarySectionType == "show" {
+                msg = fmt.Sprintf("%s started playing %s, %s - %s", payload.Account.Title, payload.Metadata.GrandparentTitle, payload.Metadata.ParentTitle, payload.Metadata.Title)
+            }
 
             v := url.Values{}
             v.Set("chat_id", "-1001623668262")
-            v.Set("text", fmt.Sprintf("%s started playing %s", payload.Account.Title, payload.Metadata.Title))
+            v.Set("text", msg)
 
             url := url.URL{
-                Scheme:     "https",
-                Host:       "api.telegram.org",
-                Path:       fmt.Sprintf("%s:%s/sendMessage", tgBotId, tgToken),
-                RawQuery:   v.Encode(),
+                Scheme:   "https",
+                Host:     "api.telegram.org",
+                Path:     fmt.Sprintf("%s:%s/sendMessage", tgBotId, tgToken),
+                RawQuery: v.Encode(),
             }
 
             urlString := url.String()
-            sugar.Info("Sending request: ", urlString)
-            
+            zap.S().Info("Sending request: ", urlString)
 
             _, err := http.Get(urlString)
             if err != nil {
-               sugar.Error(err)
+                zap.S().Error(err)
             }
         }
     })
@@ -91,6 +97,17 @@ func main() {
     })
 
     // Listen and serve on defined port
-    sugar.Info("Listening on port ", port)
+    zap.S().Info("Listening on port ", port)
     g.Run(":" + port)
+}
+
+
+func contains(s []string, str string) bool {
+    for _, v := range s {
+        if v == str {
+            return true
+        }
+    }
+
+    return false
 }
