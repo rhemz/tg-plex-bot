@@ -28,3 +28,9 @@ jobs:
       
     - name: Push image to DigitalOcean Container Registry
       run: docker push registry.digitalocean.com/rhemz/k8s-images:tg-plex-bot-latest
+
+    - name: Get temporary DO kubeconfig
+      run: doctl kubernetes cluster kubeconfig save ${{ secrets.DO_K8S_CLUSTER }} --expiry-seconds 600
+
+    - name: Bounce the deployment
+      run: -n telegram rollout restart deploy/plex-bot
