@@ -13,6 +13,7 @@ ENV PORT=8080
 WORKDIR /app
 
 COPY --from=builder /app/plex-bot .
+COPY --from=builder /app/config/config.yaml ./config/config.yaml
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
 EXPOSE $PORT
