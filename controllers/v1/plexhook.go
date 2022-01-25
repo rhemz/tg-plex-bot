@@ -37,28 +37,28 @@ func (p PlexWebhookController) Post(c *gin.Context) {
 	zap.S().Debug(err)
 
 	// send a message to the channel
+	zap.S().Info("Got plex event:", payload.Event)
 	if payload.Event == "media.play" {
-		//zap.S().Info("got play event!")
 		msg := ""
 
 		// show
 		if payload.Metadata.LibrarySectionType == "show" {
 			msg = fmt.Sprintf(`
-%s started watching a TV Show
+%s started watching a TV Show from %s
 
 <b>%s</b>
 %s, Episode %d
 %s
 `,
-				payload.Account.Title, payload.Metadata.GrandparentTitle, payload.Metadata.ParentTitle, payload.Metadata.Index, payload.Metadata.Title)
+				payload.Account.Title, payload.Player.PublicAddress.String(), payload.Metadata.GrandparentTitle, payload.Metadata.ParentTitle, payload.Metadata.Index, payload.Metadata.Title)
 		} else if payload.Metadata.LibrarySectionType == "movie" { // movie
 			msg = fmt.Sprintf(`
-%s started watching a Movie
+%s started watching a Movie from %s
 
 <b>%s</b>
 Ⓒ%d
 `,
-				payload.Account.Title, payload.Metadata.Title, payload.Metadata.Year)
+				payload.Account.Title, payload.Player.PublicAddress.String(), payload.Metadata.Title, payload.Metadata.Year)
 		}
 
 		v := url.Values{}
