@@ -38,8 +38,9 @@ func Init(file string) {
 		zap.S().Fatal("error on parsing configuration file")
 	}
 
-	config.BindEnv("telegram.bot_id", "TELEGRAM_BOT_ID")
-	config.BindEnv("telegram.api_token", "TELEGRAM_API_TOKEN")
+	config.BindEnv("telegram.botId", "TELEGRAM_BOT_ID")
+	config.BindEnv("telegram.apiToken", "TELEGRAM_API_TOKEN")
+	config.BindEnv("telegram.hookUrl", "TELEGRAM_HOOK_URL")
 }
 
 func relativePath(basedir string, path *string) {

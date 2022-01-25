@@ -16,8 +16,8 @@ type PlexWebhookController struct{}
 func (p PlexWebhookController) Post(c *gin.Context) {
 
 	// telegram things
-	tgBotId := config.GetConfig().Get("telegram.bot_id")
-	tgToken := config.GetConfig().Get("telegram.api_token")
+	tgBotId := config.GetConfig().Get("telegram.botId")
+	tgToken := config.GetConfig().Get("telegram.apiToken")
 
 	reader, err := c.Request.MultipartReader()
 	if err != nil {
@@ -38,7 +38,7 @@ func (p PlexWebhookController) Post(c *gin.Context) {
 
 	// send a message to the channel
 	if payload.Event == "media.play" {
-		zap.S().Info("got play event!")
+		//zap.S().Info("got play event!")
 		msg := ""
 
 		// show
@@ -62,7 +62,7 @@ func (p PlexWebhookController) Post(c *gin.Context) {
 		}
 
 		v := url.Values{}
-		v.Set("chat_id", config.GetConfig().GetStringSlice("telegram.broadcast_channels")[0])
+		v.Set("chat_id", config.GetConfig().GetStringSlice("telegram.broadcastChannels")[0])
 		v.Set("parse_mode", "HTML")
 		v.Set("text", msg)
 

@@ -2,6 +2,7 @@ server:
   port: 8080
 
 telegram:
-  bot_id: ""
-  api_token: ""
-  broadcast_channels: ["-1001623668262"]
+  botId: ""
+  apiToken: ""
+  hookUrl: "hook"
+  broadcastChannels: ["-1001623668262"]
