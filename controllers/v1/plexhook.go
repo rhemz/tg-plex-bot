@@ -3,31 +3,27 @@ package v1
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/hekmon/plexwebhooks"
 	"github.com/rhemz/tg-plex-bot/config"
+	"github.com/rhemz/tg-plex-bot/util"
 	"go.uber.org/zap"
 	"net/http"
-	"net/url"
-
-	"github.com/hekmon/plexwebhooks"
 )
 
 type PlexWebhookController struct{}
 
 func (p PlexWebhookController) Post(c *gin.Context) {
-
-	// telegram things
-	tgBotId := config.GetConfig().Get("telegram.botId")
-	tgToken := config.GetConfig().Get("telegram.apiToken")
+	cfg := config.GetConfig()
 
 	reader, err := c.Request.MultipartReader()
 	if err != nil {
 		// Detect error type for the http answer
 		if err == http.ErrNotMultipart || err == http.ErrMissingBoundary {
-			c.String(http.StatusBadRequest, "bad multipart, dawg")
+			c.JSON(http.StatusBadRequest, gin.H{"status": "bad multipart, dawg"})
 		} else {
-			c.String(http.StatusBadRequest, "some other kinda error")
+			zap.S().Warn(err)
+			c.JSON(http.StatusBadRequest, gin.H{"status": "bad request"})
 		}
-		zap.S().Warn(err)
 		return
 	}
 
@@ -39,11 +35,11 @@ func (p PlexWebhookController) Post(c *gin.Context) {
 	// send a message to the channel
 	zap.S().Info("Got plex event:", payload.Event)
 	if payload.Event == "media.play" {
-		msg := ""
+		msgBody := ""
 
 		// show
 		if payload.Metadata.LibrarySectionType == "show" {
-			msg = fmt.Sprintf(`
+			msgBody = fmt.Sprintf(`
 %s started watching a TV Show from %s
 
 <b>%s</b>
@@ -52,7 +48,7 @@ func (p PlexWebhookController) Post(c *gin.Context) {
 `,
 				payload.Account.Title, payload.Player.PublicAddress.String(), payload.Metadata.GrandparentTitle, payload.Metadata.ParentTitle, payload.Metadata.Index, payload.Metadata.Title)
 		} else if payload.Metadata.LibrarySectionType == "movie" { // movie
-			msg = fmt.Sprintf(`
+			msgBody = fmt.Sprintf(`
 %s started watching a Movie from %s
 
 <b>%s</b>
@@ -61,24 +57,12 @@ func (p PlexWebhookController) Post(c *gin.Context) {
 				payload.Account.Title, payload.Player.PublicAddress.String(), payload.Metadata.Title, payload.Metadata.Year)
 		}
 
-		v := url.Values{}
-		v.Set("chat_id", config.GetConfig().GetStringSlice("telegram.broadcastChannels")[0])
-		v.Set("parse_mode", "HTML")
-		v.Set("text", msg)
-
-		url := url.URL{
-			Scheme:   "https",
-			Host:     "api.telegram.org",
-			Path:     fmt.Sprintf("%s:%s/sendMessage", tgBotId, tgToken),
-			RawQuery: v.Encode(),
-		}
-
-		urlString := url.String()
-		zap.S().Info("Sending request: ", urlString)
-
-		_, err := http.Get(urlString)
+		err := util.SendMessageToChats(msgBody, cfg.GetIntSlice("telegram.broadcastChannels"))
 		if err != nil {
-			zap.S().Error(err)
+			zap.S().Error("Error sending message(s) to telegram: ", err)
 		}
+
+		c.JSON(http.StatusOK, gin.H{"status": "success"})
+
 	}
 }

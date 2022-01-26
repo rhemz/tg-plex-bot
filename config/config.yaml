@@ -5,4 +5,5 @@ telegram:
   botId: ""
   apiToken: ""
   hookUrl: "hook"
-  broadcastChannels: ["-1001623668262"]
+  broadcastChannels: [-1001623668262]
+  allowedUsers: ["russzeien"]
