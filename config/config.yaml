@@ -2,8 +2,8 @@ server:
   bindAddr: ":8080"
 
 telegram:
-  botId: ""  # override with TELEGRAM_BOT_ID
-  apiToken: ""  # TELEGRAM_API_TOKEN
-  hookUrl: "hook"  # TELEGRAM_HOOK_URL
+  botId: ""                             # override with TELEGRAM_BOT_ID
+  apiToken: ""                          # TELEGRAM_API_TOKEN
+  hookUrl: "hook"                       # TELEGRAM_HOOK_URL
   broadcastChannels: [-1001623668262]
   allowedUsers: ["russzeien"]
