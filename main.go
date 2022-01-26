@@ -26,7 +26,7 @@ func main() {
 	}
 
 	// init telegram bot api
-	err := util.InitTelegramAPI(cfg.GetString("telegram.botId")[3:], cfg.GetString("telegram.apiToken"))
+	err := util.InitTelegramAPI(cfg.GetString("telegram.botId"), cfg.GetString("telegram.apiToken"))
 	if err != nil {
 		zap.S().Fatal("Error creating telegram api client: ", err)
 	}
