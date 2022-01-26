@@ -14,20 +14,21 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    
+
+    # DOCR free plan, only 1 repo so everything is tags and -latest :(
     - name: Build the Docker image
-      run: docker build . --file Dockerfile -t registry.digitalocean.com/rhemz/k8s-images:tg-plex-bot-latest
+      run: docker build . --file Dockerfile -t ${{ secrets.DOCR_TAG }}-latest
       
     - name: Install doctl
       uses: digitalocean/action-doctl@v2
       with:
         token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
         
-    - name: Log in to DigitalOcean Container Registry with short-lived credentials
-      run: doctl registry login --expiry-seconds 600
+    - name: Log in to DOCR
+      run: doctl registry login --expiry-seconds 300
       
     - name: Push image to DigitalOcean Container Registry
-      run: docker push registry.digitalocean.com/rhemz/k8s-images:tg-plex-bot-latest
+      run: docker push ${{ secrets.DOCR_TAG }}-latest
 
     - name: Get temporary DO kubeconfig
       run: doctl kubernetes cluster kubeconfig save ${{ secrets.DO_K8S_CLUSTER }} --expiry-seconds 60
