@@ -41,6 +41,7 @@ func Init(file string) {
 	config.BindEnv("telegram.botId", "TELEGRAM_BOT_ID")
 	config.BindEnv("telegram.apiToken", "TELEGRAM_API_TOKEN")
 	config.BindEnv("telegram.hookUrl", "TELEGRAM_HOOK_URL")
+	config.BindEnv("ipinfo.apiToken", "IPINFO_API_TOKEN")
 }
 
 func relativePath(basedir string, path *string) {

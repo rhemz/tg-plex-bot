@@ -8,9 +8,12 @@ import (
 	"github.com/rhemz/tg-plex-bot/util"
 	"go.uber.org/zap"
 	"net/http"
+	"strings"
 )
 
 type PlexWebhookController struct{}
+
+var ipCache = make(map[string]util.IpInfoResponse)
 
 func (p PlexWebhookController) Post(c *gin.Context) {
 	cfg := config.GetConfig()
@@ -34,35 +37,64 @@ func (p PlexWebhookController) Post(c *gin.Context) {
 
 	// send a message to the channel
 	zap.S().Info("Got plex event:", payload.Event)
-	if payload.Event == "media.play" {
-		msgBody := ""
+	msgBody := ""
+	locString := "local network"
 
-		// show
-		if payload.Metadata.LibrarySectionType == "show" {
-			msgBody = fmt.Sprintf(`
-%s started watching a TV Show from %s
+	if payload.Event == "media.play" {
+
+		ip := payload.Player.PublicAddress.String()
+		if !strings.HasPrefix(ip, "192.168") {
+			// look up ip info.  try cache first
+			ipInfo, inCache := ipCache[ip]
+			if !inCache {
+				zap.S().Info(ip, " was not in the cache, looking it up")
+				ipInfo, err = util.IpInfoLookup(cfg.GetString("ipinfo.apiToken"), ip)
+				if err != nil {
+					zap.S().Error("error looking up IpInfo.io data for ", ip, ": ", err)
+					ipInfo = util.IpInfoResponse{}
+				} else {
+					// throw it in the cache
+					ipCache[ip] = ipInfo
+				}
+			} else {
+				zap.S().Info(ip, " was in the cache, skipping lookup")
+			}
+			locString = fmt.Sprintf("%s, %s", ipInfo.City, ipInfo.Region)
+		}
+
+		if payload.Metadata.LibrarySectionType == "show" { // show
+			msgBody += fmt.Sprintf(`
+%s started watching a TV Show from %s (%s)
 
 <b>%s</b>
 %s, Episode %d
 %s
 `,
-				payload.Account.Title, payload.Player.PublicAddress.String(), payload.Metadata.GrandparentTitle, payload.Metadata.ParentTitle, payload.Metadata.Index, payload.Metadata.Title)
+				payload.Account.Title, payload.Player.PublicAddress.String(), locString, payload.Metadata.GrandparentTitle, payload.Metadata.ParentTitle, payload.Metadata.Index, payload.Metadata.Title)
 		} else if payload.Metadata.LibrarySectionType == "movie" { // movie
-			msgBody = fmt.Sprintf(`
-%s started watching a Movie from %s
+			msgBody += fmt.Sprintf(`
+%s started watching a Movie from %s (%s)
 
 <b>%s</b>
 Ⓒ%d
 `,
-				payload.Account.Title, payload.Player.PublicAddress.String(), payload.Metadata.Title, payload.Metadata.Year)
+				payload.Account.Title, payload.Player.PublicAddress.String(), locString, payload.Metadata.Title, payload.Metadata.Year)
 		}
+	} else if payload.Event == "media.scrobble" { // scrobble is > 90% completion of a media item
+		msgBody += fmt.Sprintf("%s has finished their %s", payload.Account.Title, payload.Metadata.LibrarySectionType)
+	}
 
+	// send telegram message(s) if any msg body was generated
+	if len(msgBody) > 0 {
 		err := util.SendMessageToChats(msgBody, cfg.GetIntSlice("telegram.broadcastChannels"))
 		if err != nil {
-			zap.S().Error("Error sending message(s) to telegram: ", err)
+			zap.S().Error("error sending message(s) to telegram: ", err)
+			c.JSON(http.StatusInternalServerError, gin.H{"status": "error sending message to telegram channel(s)"})
 		}
-
 		c.JSON(http.StatusOK, gin.H{"status": "success"})
-
+		return
 	}
+
+	c.JSON(http.StatusOK, gin.H{"status": "no action"})
+
 }

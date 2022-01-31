@@ -17,7 +17,7 @@ func NewRouter() *gin.Engine {
 
 	// health check
 	router.GET("/health", func(c *gin.Context) {
-		c.String(http.StatusOK, "ok")
+		c.JSON(http.StatusOK, gin.H{"status": "healthy"})
 	})
 
 	// plex webhook

@@ -17,7 +17,8 @@ func (t TelegramWebhookController) Post(c *gin.Context) {
 
 	var update tgbotapi.Update
 	if err := c.ShouldBindJSON(&update); err != nil {
-		c.JSON(http.StatusOK, gin.H{"error": err.Error()})
+		// always 200 so tg doesn't start exponential backoff
+		c.JSON(http.StatusOK, gin.H{"error binding telegram JSON payload": err.Error()})
 		return
 	}
 
