@@ -31,6 +31,27 @@ func SendMessageToChats(body string, chats []int) error {
 	return nil
 }
 
+func SendPhotoToChats(photoBytes []uint8, caption string, chats []int) error {
+	photoData := tgbotapi.FileBytes{
+		Name:  "thumbnail",
+		Bytes: photoBytes,
+	}
+	for _, chat := range chats {
+		photoMsg := tgbotapi.NewPhoto(int64(chat), photoData)
+		photoMsg.ParseMode = "HTML"
+		photoMsg.Caption = caption
+		_, err := api.Send(photoMsg)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func SendMessageResponse(body string, update tgbotapi.Update) error {
+	return SendMessageToChats(body, []int{int(update.Message.Chat.ID)})
+}
+
 func GetTelegramAPI() *tgbotapi.BotAPI {
 	return api
 }

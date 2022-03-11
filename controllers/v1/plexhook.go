@@ -84,17 +84,32 @@ func (p PlexWebhookController) Post(c *gin.Context) {
 		msgBody += fmt.Sprintf("%s has finished their %s", payload.Account.Title, payload.Metadata.LibrarySectionType)
 	}
 
+	// is sending telegram messages disabled?
+	if config.TelegramMessagesDisabled && len(msgBody) > 0 {
+		zap.S().Info("Telegram messages are temporarily disabled.  Would have posted: ", msgBody)
+		c.JSON(http.StatusOK, gin.H{"status": "no action"})
+		return
+	}
+
 	// send telegram message(s) if any msg body was generated
 	if len(msgBody) > 0 {
-		err := util.SendMessageToChats(msgBody, cfg.GetIntSlice("telegram.broadcastChannels"))
-		if err != nil {
-			zap.S().Error("error sending message(s) to telegram: ", err)
-			c.JSON(http.StatusInternalServerError, gin.H{"status": "error sending message to telegram channel(s)"})
+		if thumb != nil {
+			err := util.SendPhotoToChats(thumb.Data, msgBody, cfg.GetIntSlice("telegram.broadcastChannels"))
+			if err != nil {
+				zap.S().Error("error sending photo(s) to telegram: ", err)
+				c.JSON(http.StatusInternalServerError, gin.H{"status": "error sending photo to telegram channel(s)"})
+			}
+		} else {
+			err := util.SendMessageToChats(msgBody, cfg.GetIntSlice("telegram.broadcastChannels"))
+			if err != nil {
+				zap.S().Error("error sending message(s) to telegram: ", err)
+				c.JSON(http.StatusInternalServerError, gin.H{"status": "error sending message to telegram channel(s)"})
+			}
 		}
+
 		c.JSON(http.StatusOK, gin.H{"status": "success"})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{"status": "no action"})
-
 }
