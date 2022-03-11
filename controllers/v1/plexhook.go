@@ -94,12 +94,14 @@ func (p PlexWebhookController) Post(c *gin.Context) {
 	// send telegram message(s) if any msg body was generated
 	if len(msgBody) > 0 {
 		if thumb != nil {
+			zap.S().Info("Thumbnail was present in payload, sending photo message(s)")
 			err := util.SendPhotoToChats(thumb.Data, msgBody, cfg.GetIntSlice("telegram.broadcastChannels"))
 			if err != nil {
 				zap.S().Error("error sending photo(s) to telegram: ", err)
 				c.JSON(http.StatusInternalServerError, gin.H{"status": "error sending photo to telegram channel(s)"})
 			}
 		} else {
+			zap.S().Info("Thumbnail was not present in payload, sending standard message(s)")
 			err := util.SendMessageToChats(msgBody, cfg.GetIntSlice("telegram.broadcastChannels"))
 			if err != nil {
 				zap.S().Error("error sending message(s) to telegram: ", err)
