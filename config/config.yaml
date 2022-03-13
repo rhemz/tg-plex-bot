@@ -6,7 +6,7 @@ telegram:
   apiToken: ""                          # TELEGRAM_API_TOKEN
   hookUrl: "hook"                       # TELEGRAM_HOOK_URL
   broadcastChannels: [-1001623668262]
-  allowedUsers: ["russzeien"]
+  allowedUsers: ["russ_media_bot", "russzeien"]
 
 ipinfo:
   apiToken: ""                          # IPINFO_API_TOKEN

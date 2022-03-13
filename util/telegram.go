@@ -48,8 +48,8 @@ func SendPhotoToChats(photoBytes []uint8, caption string, chats []int) error {
 	return nil
 }
 
-func SendMessageResponse(body string, update tgbotapi.Update) error {
-	return SendMessageToChats(body, []int{int(update.Message.Chat.ID)})
+func SendMessageResponse(body string, msg tgbotapi.Message) error {
+	return SendMessageToChats(body, []int{int(msg.Chat.ID)})
 }
 
 func GetTelegramAPI() *tgbotapi.BotAPI {
