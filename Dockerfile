@@ -1,7 +1,7 @@
 FROM golang:1.18.0-alpine3.15 as builder
 WORKDIR /app
 COPY . .
-RUN apk update && apk upgrade && apk add --no-cache ca-certificates
+RUN apk update && apk upgrade && apk add --no-cache ca-certificates git
 RUN update-ca-certificates
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o plex-bot -ldflags="-w -s" .
 
